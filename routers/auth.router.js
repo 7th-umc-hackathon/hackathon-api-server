@@ -9,6 +9,7 @@ const router = express.Router();
 router.get("/countries", registerController.getCountries);
 
 // id가 unqiue한지 체크하기
+router.post("/id/unique", registerController.checkIdUnique);
 
 // 로컬 로그인
 router.post("/login/local", loginController.userLogin);

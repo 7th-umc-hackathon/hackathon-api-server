@@ -56,4 +56,13 @@ export const userRankList = async (req, res, next) => {
   }
 };
 
-export const claimRewared = async (req, res, next) => {};
+export const claimRewared = async (req, res, next) => {
+  try{
+    const updatedRewardUser = await userService.UpdateUserReward(req.user.user_id,req.params.relay_user_id);
+
+    return res.status(200).success(updatedRewardUser);
+  }catch(err){
+    logError(err);
+    next(err);
+  }
+};

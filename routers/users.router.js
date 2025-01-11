@@ -30,6 +30,6 @@ router.get(
 router.get("/rank/country", profileController.countryRankingList);
 
 // 리워드 수령
-router.patch("/:relay_id/claim-reward", authMiddleware.authenticateAccessToken);
+router.get("/:relay_user_id/claim-reward", authMiddleware.authenticateAccessToken,profileController.claimRewared);
 
 export default router;

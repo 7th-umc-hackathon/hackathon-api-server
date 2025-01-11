@@ -22,6 +22,10 @@ class RelayUser extends Model {
           type: DataTypes.ENUM("rewarded", "success", "fail", "in_progress"),
           allowNull: false,
         },
+        reward_relay_count: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
         created_at: {
           type: DataTypes.DATE(6),
           allowNull: false,

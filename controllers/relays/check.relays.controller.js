@@ -38,4 +38,4 @@ export const handleGetUserRelayHistory = async (req,res,next) => {
       logError(err);
       next(err);
   }
-}
+};

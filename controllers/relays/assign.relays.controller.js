@@ -19,12 +19,13 @@ export const newAssign = async (req, res, next) => {
 export const assignConfirm = async (req, res, next) => {
   try {
     const { user_id } = req.user;
+    
     // 현재 릴레이 배정을 확정
-    const confirmedRelay = await assignService.confirmAssignment(user_id);
+    const confirmedRelay = await assignService.confirmAssignment(user_id,req.body);
 
     return res.status(200).success({
       message: "참가하기 선택 성공",
-      relay: confirmedRelay,
+      relay_user: confirmedRelay,
     });
   } catch (error) {
     logError(error);

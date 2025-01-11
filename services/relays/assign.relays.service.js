@@ -36,36 +36,21 @@ export const assignment = async (userId) => {
 };
 
 // 현재 릴레이 배정을 확정하기
-export const confirmAssignment = async (userId) => {
+export const confirmAssignment = async (userId,data) => {
   const user = await User.findOne({ where: { user_id: userId } });
 
   if (!user) {
     throw new NotExistsError("사용자를 찾을 수 없습니다.");
   }
 
-  const countryId = user.country_id;
-
-  const relay = await Relay.findOne({
-    where: {
-      next_country_id: countryId,
-      status: "open",
-    },
-  });
-
-  if (!relay) {
-    throw new NotExistsError("해당 조건에 맞는 릴레이가 없습니다.");
-  }
-
-  relay.status = "in_progress"; // 릴레이 상태 open --> in_progress
-  await relay.save();
-
-  await RelayUser.create({
+  const createRelayUser = await RelayUser.create({
     user_id: userId,
-    relay_id: relay.relay_id,
-    status: "wait", // in_progress랑 wait 구별해야 할 것 같은데..
+    relay_id: data.relay_id,
+    reward_relay_count: data.reward_relay_count,
+    status: "waiting", // in_progress랑 waiting 구별해야 할 것 같은데..
   });
 
-  return relay;
+  return createRelayUser;
 };
 
 // 다음 타자로 가능한 국가 띄우기

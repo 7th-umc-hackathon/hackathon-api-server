@@ -17,6 +17,7 @@ export const userRegister = async (req, res, next) => {
   */
   try {
     // (나중에) 이미 존재하는 사용자인지 검토
+    await registerService.checkIdUnique(req.body.login_id);
 
     // 사용자 등록
     const user = await registerService.userRegister(req.body);
@@ -35,6 +36,17 @@ export const getCountries = async (req, res, next) => {
   try {
     const countries = await registerService.getCountries();
     res.status(200).success(countries);
+  } catch (err) {
+    logError(err);
+    next(err);
+  }
+};
+
+export const checkIdUnique = async (req, res, next) => {
+  try {
+    const { login_id } = req.body;
+    const isUnique = await registerService.checkIdUnique(login_id);
+    res.status(200).success({ message: "사용 가능한 아이디입니다." });
   } catch (err) {
     logError(err);
     next(err);

@@ -8,6 +8,7 @@ export const userRegister = async (req, res, next) => {
       "login_id": "login_id",
       "password": "password",
       "name": "name",
+      "nickname" : "nickname",
       "country_id": "country_id"
     }
 
@@ -24,6 +25,16 @@ export const userRegister = async (req, res, next) => {
     return res.status(201).json({
       message: "회원가입에 성공했습니다.",
     });
+  } catch (err) {
+    logError(err);
+    next(err);
+  }
+};
+
+export const getCountries = async (req, res, next) => {
+  try {
+    const countries = await registerService.getCountries();
+    res.status(200).success(countries);
   } catch (err) {
     logError(err);
     next(err);

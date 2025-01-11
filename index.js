@@ -30,7 +30,7 @@ import { specs } from "./utils/swagger/swagger.js";
 // Routers는 이 주석 아래에 import 해주시면 됩니다.
 // ex) const exampleRouter = require("./routers/example.router");
 import authRouter from "./routers/auth.router.js";
-import relayRouter from "./routers/relay.router.js";
+import relayRouter from "./routers/relays.router.js";
 import usersRouter from "./routers/users.router.js";
 
 // Socket.io Router는 이 주석 아래에 import 해주시면 됩니다.

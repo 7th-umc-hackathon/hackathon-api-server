@@ -36,7 +36,8 @@ export const handleGetUserRelayHistory = async (req, res, next) => {
 
 export const getRelayHistory = async (req, res, next) => {
   try {
-    const result = await getRelayHistoryService(req.body.relay_id);
+    const { relay_id } = req.params;
+    const result = await getRelayHistoryService(relay_id);
     return res.status(201).success({ result });
   } catch (err) {
     logError(err);

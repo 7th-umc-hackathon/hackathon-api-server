@@ -44,7 +44,7 @@ router.get("/history/user", authenticateAccessToken, handleGetUserRelayHistory);
 
 // 릴레이의 과거 이력 조회 -> 과거가 앞에 있습니다
 router.get(
-  "/history/relay",
+  "/history/relay/:relay_id",
   // authenticateAccessToken,
   getRelayHistory
 );

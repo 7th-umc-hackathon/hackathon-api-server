@@ -5,6 +5,9 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+
+import cron from "node-cron";
+import { RelayUser } from "./models/index.js";
 // import { Server } from "socket.io"; // socket을 사용하려면 주석 해제
 // import https from "https"; // https를 사용해야 하는 경우 사용하면 됩니다.
 import http from "http";
@@ -58,6 +61,19 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use("/auth", authRouter);
 app.use("/relays", relayRouter);
 app.use("/users", usersRouter);
+
+// 매일 자정에 실행되는 크론 작업 설정
+cron.schedule("0 0 * * *", async () => {
+  try {
+    await RelayUser.update(
+      { status: "fail" }, // 원하는 상태로 변경
+      { where: { status: "in_progress" } } // 조건에 맞는 레코드 선택
+    );
+    logger.info("relayUser 상태가 성공적으로 업데이트되었습니다.");
+  } catch (error) {
+    logger.error("relayUser 상태 업데이트 중 오류 발생:", error);
+  }
+});
 
 // 에러 핸들러는 최하단에 위치해야 하는 미들웨어입니다. 절대 순서를 변경하지 마세요.
 app.use(errorHandler);

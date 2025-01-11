@@ -1,6 +1,7 @@
 import express from "express";
 import * as registerController from "../controllers/auth/register.auth.controller.js";
 import * as loginController from "../controllers/auth/login.auth.controller.js";
+import * as authMiddleware from "../middleware/authenticate.jwt.js";
 
 const router = express.Router();
 
@@ -14,7 +15,17 @@ router.post("/login/local", loginController.userLogin);
 // 로컬 회원가입
 router.post("/contries", registerController.userRegister);
 
-// 토큰 reissue
+// 미들웨어 테스트
+router.get(
+  "/check-token",
+  authMiddleware.authenticateAccessToken,
+  (req, res) => {
+    res.status(200).success({
+      message: "토큰이 유효합니다.",
+      user: req.user,
+    });
+  }
+);
 
 // id 찾기
 

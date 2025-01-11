@@ -7,7 +7,7 @@ export const missionComplete = async (req, res, next) => {
       req.body.mission,
       req.body.image
     );
-    return res.status(200).success(result);
+    return res.status(200).success({ result });
   } catch (err) {
     logError(err);
     next(err);
@@ -17,7 +17,7 @@ export const missionComplete = async (req, res, next) => {
 export const explainImage = async (req, res, next) => {
   try {
     const result = await aiService.explainImage(req.body.image);
-    return res.status(200).success(result);
+    return res.status(200).success({ result });
   } catch (err) {
     logError(err);
     next(err);
@@ -27,7 +27,7 @@ export const explainImage = async (req, res, next) => {
 export const getMission = async (req, res, next) => {
   try {
     const result = await aiService.getMission();
-    return res.status(201).success(result);
+    return res.status(201).success({ result });
   } catch (err) {
     logError(err);
     next(err);

@@ -2,7 +2,7 @@ import config from "../../config.js";
 const { SERVER_DOMAIN } = config.SERVER;
 
 export const corsOptions = {
-  origin: ["http://localhost:5173", "http://192.168.0.24:5173"], // CORS domain 설정
+  origin: ["http://localhost:5175"], // CORS domain 설정
   // origin: "*", // CORS domain 설정
   credentials: true,
 };

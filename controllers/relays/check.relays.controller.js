@@ -1,4 +1,5 @@
 import { checkCurrentRelayExists } from "../../services/relays/check.relays.service.js";
+import { logError } from "../../utils/handlers/error.logger.js";
 
 //현재 사용자 진행중 릴레이 조회
 export const handleUserCurrentRelayGet = async (req,res, next) => {

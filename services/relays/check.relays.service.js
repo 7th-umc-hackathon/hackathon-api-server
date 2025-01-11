@@ -1,5 +1,6 @@
 import { Op } from "sequelize"; // Sequelize에서 연산자 가져오기
 import { RelayUser } from "../../models/index.js";
+import { NotExistsError } from "../../utils/errors/errors.js";
 
 // 사용자 현재 진행 중인 릴레이 조회
 export const checkCurrentRelayExists = async (userId) => {
@@ -13,7 +14,7 @@ export const checkCurrentRelayExists = async (userId) => {
     });
 
     if (!currentRelay) {
-        return null; // 릴레이가 없으면 null 반환
+        throw new NotExistsError("사용자가 진행중인 릴레이가 없습니다.",{userId}); // 릴레이가 없으면 null 반환
     }
 
     return currentRelay; // 릴레이가 있으면 반환

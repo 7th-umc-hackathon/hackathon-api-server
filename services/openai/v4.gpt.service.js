@@ -54,6 +54,8 @@ export const getMission = async () => {
     logger.info(
       `[getMission] 미션 생성 결과: ${completion.choices[0].message.content}`
     );
+
+    return completion.choices[0].message.content;
     // console.log(JSON.stringify(completion.data, null, 2));
   } catch (error) {
     console.error("OpenAI API 요청 중 오류 발생:", error);

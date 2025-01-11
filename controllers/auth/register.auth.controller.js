@@ -40,3 +40,14 @@ export const getCountries = async (req, res, next) => {
     next(err);
   }
 };
+
+export const checkIdUnique = async (req, res, next) => {
+  try {
+    const { login_id } = req.body;
+    const isUnique = await registerService.checkIdUnique(login_id);
+    res.status(200).success({ message: "사용 가능한 아이디입니다." });
+  } catch (err) {
+    logError(err);
+    next(err);
+  }
+};

@@ -26,7 +26,7 @@ router.get("/", authenticateAccessToken, newAssign);
 router.post("/current", authenticateAccessToken, assignConfirm);
 
 // 가능한 다음 국가 띄우기
-router.get("/:relay_id/next/countries", authenticateAccessToken, nextCountry);
+router.get("/:relay_id/next/countries", nextCountry);
 
 // 다음 국가 선택
 router.post("/:relay_id/next", authenticateAccessToken, countryConfirm);

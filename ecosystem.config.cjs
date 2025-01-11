@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "your-app-name",
+      name: "rwm",
       script: "./index.js",
       instances: 0, // 고정값 설정 (CPU 코어 수에 따라 조정 가능)
       exec_mode: "cluster",

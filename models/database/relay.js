@@ -30,10 +30,6 @@ class Relay extends Model {
           type: DataTypes.BIGINT,
           allowNull: false,
         },
-        client_relay_count: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-        },
         unique_country_count: {
           type: DataTypes.INTEGER,
           allowNull: false,

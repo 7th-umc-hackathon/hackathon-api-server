@@ -1,4 +1,3 @@
-import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
 
 // schama import : 아래 예시 처럼 import 해주시면 됩니다.

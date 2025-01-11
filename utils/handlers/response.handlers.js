@@ -1,5 +1,5 @@
-import logger from "../logger/logger";
-import { logError } from "./error.logger";
+import logger from "../logger/logger.js";
+import { logError } from "./error.logger.js";
 
 export const responseHandler = (req, res, next) => {
   res.success = (success) => {

@@ -11,21 +11,23 @@ import http from "http";
 import path from "node:path";
 
 // 로컬 파일들 import, 기능별로 구분해주세요.
-import logger from "./utils/logger/logger";
-import { corsOptions /*, sslOptions */ } from "./options";
+import logger from "./utils/logger/logger.js";
+import { corsOptions /*, sslOptions */ } from "./utils/options/options.js";
 
-import { PORT } from "./config" assert { type: "json" };
+import config from "./config.js";
+const PORT = config.SERVER.PORT;
+
 import {
   errorHandler,
   responseHandler,
-} from "./utils/handlers/response.handlers";
+} from "./utils/handlers/response.handlers.js";
 
-import { swaggerUi, specs } from "./swagger/swagger";
+import swaggerUi from "swagger-ui-express";
+import { specs } from "./utils/swagger/swagger.js";
 
 // Routers는 이 주석 아래에 import 해주시면 됩니다.
 // ex) const exampleRouter = require("./routers/example.router");
-
-// TODO : 일단 구현 중에는 분리해서 구현하고 있으며, 구현 끝나고 스터디 룸 등으로 이동할지 결정하자.
+import authRouter from "./routers/auth.router.js";
 
 // Socket.io Router는 이 주석 아래에 import 해주시면 됩니다.
 // ex) const exampleSocketRouter = require("./routes/example.socket.router");
@@ -42,13 +44,14 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use("/static", express.static("public")); // 정적 파일 제공. public 폴더 안에 있는 파일들을 /static 경로를 통해 접근 가능
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Swagger 설정
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // 이 주석 하단에 Router들을 use 해주시면 됩니다.
 // ex) app.use("/example", exampleRouter);
+app.use("/auth", authRouter);
 
 // 에러 핸들러는 최하단에 위치해야 하는 미들웨어입니다. 절대 순서를 변경하지 마세요.
 app.use(errorHandler);

@@ -1,4 +1,4 @@
-import config from "../../config.json";
+import config from "../../config.js";
 const { SERVER_DOMAIN } = config.SERVER;
 
 export const corsOptions = {

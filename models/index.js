@@ -1,16 +1,19 @@
-import fs from "fs";
-import path from "path";
 import Sequelize from "sequelize";
-import logger from "../utils/logger/logger";
-import dbConfig from "../config.json";
+import logger from "../utils/logger/logger.js";
+import config from "../config.js";
+
+import User from "./database/user.js";
+import Relay from "./database/relay.js";
+import RelayUser from "./database/relay_user.js";
+import Country from "./database/country.js";
 
 const sequelize = new Sequelize(
-  dbConfig.DATABASE.MYSQL_DATABASE,
-  dbConfig.DATABASE.MYSQL_USER,
-  dbConfig.DATABASE.MYSQL_PASSWORD,
+  config.DATABASE.MYSQL_DATABASE,
+  config.DATABASE.MYSQL_USER,
+  config.DATABASE.MYSQL_PASSWORD,
   {
-    host: dbConfig.DATABASE.MYSQL_HOST,
-    port: dbConfig.DATABASE.MYSQL_PORT,
+    host: config.DATABASE.MYSQL_HOST,
+    port: config.DATABASE.MYSQL_PORT,
     dialect: "mysql",
     logging: (msg) => logger.debug(`[Sequelize ✨]\n${msg} ✨`),
     timezone: "+09:00",
@@ -23,23 +26,19 @@ const sequelize = new Sequelize(
   }
 );
 
-const db = {};
-logger.info("모델 갯수 :", Object.keys(db).length);
+const db = { User, Relay, RelayUser, Country };
 
-const modelsDir = path.join(__dirname, "define");
-const modelFiles = fs.readdirSync(modelsDir);
-modelFiles
-  .filter(
-    (file) =>
-      file.slice(-3) === ".js" &&
-      !file.startsWith(".") &&
-      !file.endsWith(".test.js")
-  )
-  .forEach((file) => {
-    const model = require(path.join(modelsDir, file)).default;
-    model.init(sequelize);
-    db[model.name] = model;
-  });
+// console.log(db);
+
+// db.User.init(sequelize);
+// db.Relay.init(sequelize);
+// db.RelayUser.init(sequelize);
+// db.Country.init(sequelize);
+
+// db.User.associate(db);
+// db.Relay.associate(db);
+// db.RelayUser.associate(db);
+// db.Country.associate(db);
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].init) {

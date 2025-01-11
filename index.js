@@ -14,7 +14,7 @@ import path from "node:path";
 import logger from "./utils/logger/logger";
 import { corsOptions /*, sslOptions */ } from "./options";
 
-import { PORT } from "./config.json";
+import { PORT } from "./config" assert { type: "json" };
 import {
   errorHandler,
   responseHandler,

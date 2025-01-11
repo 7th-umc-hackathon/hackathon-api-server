@@ -1,4 +1,4 @@
-const { InvalidInputError } = require("../errors");
+import { InvalidInputError } from "../errors";
 
 /**
  * 요청 데이터를 주어진 스키마로 검증하는 미들웨어 생성기.
@@ -34,4 +34,4 @@ const formatErrors = (errors) => {
   }));
 };
 
-module.exports = validate;
+export default validate;

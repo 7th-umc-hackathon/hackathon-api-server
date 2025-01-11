@@ -2,7 +2,7 @@ import express from "express";
 import registerController from "../controllers/auth/register.auth.controller";
 import loginController from "../controllers/auth/login.auth.controller";
 import kakaoController from "../controllers/auth/kakao.auth.controller";
-import authValidator from "../utils/validators/auth.validators";
+import authValidator from "../utils/validators/auth/auth.validators";
 import validate from "../middleware/validate";
 
 const router = express.Router();

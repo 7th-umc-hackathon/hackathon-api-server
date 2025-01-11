@@ -1,29 +1,26 @@
 // Written by Kyeoung Woon Park https://github.com/kyeoungwoon
 
 // npm 패키지 import
-const express = require("express");
-const cors = require("cors");
-const morgan = require("morgan");
-const cookieParser = require("cookie-parser");
-// const { Server } = require("socket.io"); // socket을 사용하려면 주석 해제
-// const https = require("https"); // https를 사용해야 하는 경우 사용하면 됩니다.
-const http = require("http");
-const path = require("node:path");
+import express from "express";
+import cors from "cors";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
+// import { Server } from "socket.io"; // socket을 사용하려면 주석 해제
+// import https from "https"; // https를 사용해야 하는 경우 사용하면 됩니다.
+import http from "http";
+import path from "node:path";
 
 // 로컬 파일들 import, 기능별로 구분해주세요.
-const logger = require("./utils/logger/logger");
-const {
-  corsOptions,
-  //  sslOptions
-} = require("./options");
+import logger from "./utils/logger/logger";
+import { corsOptions /*, sslOptions */ } from "./options";
 
-const { PORT } = require("./config.json").SERVER;
-const {
+import { PORT } from "./config.json";
+import {
   errorHandler,
   responseHandler,
-} = require("./utils/handlers/response.handlers");
+} from "./utils/handlers/response.handlers";
 
-const { swaggerUi, specs } = require("./swagger/swagger");
+import { swaggerUi, specs } from "./swagger/swagger";
 
 // Routers는 이 주석 아래에 import 해주시면 됩니다.
 // ex) const exampleRouter = require("./routers/example.router");

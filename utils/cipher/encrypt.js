@@ -1,11 +1,13 @@
 // encrypt.util.js
 
-const crypto = require("crypto");
-const bcrypt = require("bcrypt");
-const baseX = require("base-x").default;
-const { SALT_ROUNDS, CIPHER_SECRET_KEY } = require("../config.json").SERVER;
-const logger = require("../logger/logger");
-const { NotAllowedError, InvalidInputError } = require("../errors");
+import crypto from "crypto";
+import bcrypt from "bcrypt";
+import baseX from "base-x";
+import { SERVER } from "../config.json";
+import logger from "../logger/logger";
+import { NotAllowedError, InvalidInputError } from "../errors";
+
+const { SALT_ROUNDS, CIPHER_SECRET_KEY } = SERVER;
 
 // Base62 문자 집합 정의
 const BASE62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -34,7 +36,7 @@ if (key.length !== 32) {
  * @param {string} text - 암호화할 텍스트
  * @returns {string} - Base62 인코딩된 암호화된 데이터
  */
-const encrypt62 = (text) => {
+export const encrypt62 = (text) => {
   try {
     if (typeof text === "number") {
       logger.error(
@@ -65,7 +67,7 @@ const encrypt62 = (text) => {
  * @param {string} encryptedText - Base62 인코딩된 암호화된 데이터
  * @returns {string} - 복호화된 텍스트
  */
-const decrypt62 = (encryptedText) => {
+export const decrypt62 = (encryptedText) => {
   try {
     // Base62 디코딩
     const combined = BASE62_ENCODER.decode(encryptedText);
@@ -94,7 +96,7 @@ const decrypt62 = (encryptedText) => {
  * @param {string} password - 해싱할 비밀번호
  * @returns {Promise<string>} - 해싱된 비밀번호
  */
-const generateHashedPassword = async (password) => {
+export const generateHashedPassword = async (password) => {
   try {
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
     return hashedPassword;
@@ -110,7 +112,7 @@ const generateHashedPassword = async (password) => {
  * @param {string} hashedPassword - 저장된 해싱된 비밀번호
  * @returns {Promise<boolean>} - 비밀번호 일치 여부
  */
-const comparePassword = async (password, hashedPassword) => {
+export const comparePassword = async (password, hashedPassword) => {
   try {
     const checkresult = await bcrypt.compare(password, hashedPassword);
     if (!checkresult) {
@@ -122,14 +124,6 @@ const comparePassword = async (password, hashedPassword) => {
   }
 };
 
-const generate6DigitToken = () => {
+export const generate6DigitToken = () => {
   return crypto.randomInt(100000, 1000000).toString();
-};
-
-module.exports = {
-  encrypt62,
-  decrypt62,
-  generateHashedPassword,
-  comparePassword,
-  generate6DigitToken,
 };

@@ -1,7 +1,7 @@
 // import library
 
 // import utils
-const logger = require("../utils/logger/logger");
+import logger from "../utils/logger/logger.js";
 
 // logger.info("Hello, World!");
 

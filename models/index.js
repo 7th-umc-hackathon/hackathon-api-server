@@ -1,17 +1,16 @@
-const fs = require("fs");
-const path = require("path");
-const Sequelize = require("sequelize");
-const logger = require("../utils/logger/logger");
-
-const dbConfig = require("../config.json").DATABASE;
+import fs from "fs";
+import path from "path";
+import Sequelize from "sequelize";
+import logger from "../utils/logger/logger";
+import dbConfig from "../config.json";
 
 const sequelize = new Sequelize(
-  dbConfig.MYSQL_DATABASE,
-  dbConfig.MYSQL_USER,
-  dbConfig.MYSQL_PASSWORD,
+  dbConfig.DATABASE.MYSQL_DATABASE,
+  dbConfig.DATABASE.MYSQL_USER,
+  dbConfig.DATABASE.MYSQL_PASSWORD,
   {
-    host: dbConfig.MYSQL_HOST,
-    port: dbConfig.MYSQL_PORT,
+    host: dbConfig.DATABASE.MYSQL_HOST,
+    port: dbConfig.DATABASE.MYSQL_PORT,
     dialect: "mysql",
     logging: (msg) => logger.debug(`[Sequelize ✨]\n${msg} ✨`),
     timezone: "+09:00",
@@ -30,15 +29,14 @@ logger.info("모델 갯수 :", Object.keys(db).length);
 const modelsDir = path.join(__dirname, "define");
 const modelFiles = fs.readdirSync(modelsDir);
 modelFiles
-  .filter((file) => {
-    return (
+  .filter(
+    (file) =>
       file.slice(-3) === ".js" &&
       !file.startsWith(".") &&
       !file.endsWith(".test.js")
-    );
-  })
+  )
   .forEach((file) => {
-    const model = require(path.join(modelsDir, file));
+    const model = require(path.join(modelsDir, file)).default;
     model.init(sequelize);
     db[model.name] = model;
   });
@@ -58,4 +56,4 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+export default db;

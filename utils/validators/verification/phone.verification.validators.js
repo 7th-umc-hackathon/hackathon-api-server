@@ -1,5 +1,5 @@
-const Ajv = require("ajv");
-const addFormats = require("ajv-formats");
+import Ajv from "ajv";
+import addFormats from "ajv-formats";
 
 const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);
@@ -36,8 +36,4 @@ const checkPhoneUnique = ajv.compile(checkPhoneUniqueSchema);
 const sendTokenToPhone = ajv.compile(sendTokenToPhoneSchema);
 const verifyToken = ajv.compile(verifyTokenSchema);
 
-module.exports = {
-  checkPhoneUnique,
-  sendTokenToPhone,
-  verifyToken,
-};
+export { checkPhoneUnique, sendTokenToPhone, verifyToken };

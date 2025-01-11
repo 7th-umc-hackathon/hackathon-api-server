@@ -1,4 +1,4 @@
-const logger = require("../logger/logger");
+import logger from "../logger/logger";
 
 const logError = (err) => {
   logger.error(`
@@ -11,6 +11,4 @@ const logError = (err) => {
   `);
 };
 
-module.exports = {
-  logError,
-};
+export { logError };

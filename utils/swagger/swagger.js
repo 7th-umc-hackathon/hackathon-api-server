@@ -1,11 +1,11 @@
-const swaggerUi = require("swagger-ui-express");
-const swaggerJsdoc = require("swagger-jsdoc");
+import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";
 
 // schama import : 아래 예시 처럼 import 해주시면 됩니다.
 // const yourSchema = require("./schemas/your.schema");
 
 // Swagger 옵션 설정
-const options = {
+export const options = {
   swaggerDefinition: {
     openapi: "3.1.0", // OpenAPI 버전을 3.1.0으로 업데이트
     info: {
@@ -53,9 +53,4 @@ const options = {
   apis: ["./routes/*.js"], // API 경로 (Swagger 주석이 포함된 파일)
 };
 
-const specs = swaggerJsdoc(options);
-
-module.exports = {
-  swaggerUi,
-  specs,
-};
+export const specs = swaggerJsdoc(options);

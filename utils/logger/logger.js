@@ -1,5 +1,5 @@
-const winston = require("winston");
-const { format } = require("winston");
+import winston from "winston";
+const { format } = winston;
 const { combine, timestamp, printf } = format;
 
 // 함수명 트래킹을 위한 커스텀 포맷
@@ -59,4 +59,4 @@ const logger = winston.createLogger({
  * - silly: 가장 낮은 수준의 로그. 매우 상세한 정보를 기록할 때 사용.
  */
 
-module.exports = logger; // 다른 모듈에서 사용 가능하도록 내보내기
+export default logger; // 다른 모듈에서 사용 가능하도록 내보내기

@@ -81,7 +81,7 @@ class UnknownError extends CustomError {
   }
 }
 
-module.exports = {
+export {
   CustomError,
   SampleError,
   InvalidInputError,

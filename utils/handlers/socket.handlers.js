@@ -1,6 +1,6 @@
-const logger = require("../../logger");
+import logger from "../../logger";
 
-const socketErrorHandler = (socket, on, err) => {
+export const socketErrorHandler = (socket, on, err) => {
   logger.error(
     `[errorHandler]\
       \nON ${on}\
@@ -21,8 +21,4 @@ const socketErrorHandler = (socket, on, err) => {
     reason: err.reason || err.message || null,
     data: err.data || null,
   });
-};
-
-module.exports = {
-  socketErrorHandler,
 };

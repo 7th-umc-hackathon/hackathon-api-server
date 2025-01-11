@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken");
-const logger = require("../logger/logger");
+import jwt from "jsonwebtoken";
+import logger from "../logger/logger";
+import { SERVER } from "./config.json";
+const { JWT_SECRET } = SERVER;
 
-const { JWT_SECRET } = require("./config.json").SERVER;
-
-const parseBearerFromHeader = (req, res, next) => {
+export const parseBearerFromHeader = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
     const token = authHeader.split(" ")[1];
@@ -13,7 +13,7 @@ const parseBearerFromHeader = (req, res, next) => {
   next();
 };
 
-const decodeToken = (req, res, next) => {
+export const decodeToken = (req, res, next) => {
   const token = req.token;
   if (token) {
     try {
@@ -25,9 +25,4 @@ const decodeToken = (req, res, next) => {
     }
   }
   next();
-};
-
-module.exports = {
-  parseBearerFromHeader,
-  decodeToken,
 };

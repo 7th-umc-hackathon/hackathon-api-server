@@ -6,6 +6,7 @@ import * as authMiddleware from "../middleware/authenticate.jwt.js";
 const router = express.Router();
 
 // 모든 도시 가져오기
+router.get("/countries", registerController.getCountries);
 
 // id가 unqiue한지 체크하기
 
@@ -13,7 +14,7 @@ const router = express.Router();
 router.post("/login/local", loginController.userLogin);
 
 // 로컬 회원가입
-router.post("/contries", registerController.userRegister);
+router.post("/register/local", registerController.userRegister);
 
 // 미들웨어 테스트
 router.get(

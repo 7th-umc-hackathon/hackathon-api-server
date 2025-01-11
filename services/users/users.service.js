@@ -35,6 +35,7 @@ export const userProfile = async (userId) => {
         where: {
           user_id: Sequelize.col("User.user_id"),
         },
+        required: false,
       },
     ],
   });

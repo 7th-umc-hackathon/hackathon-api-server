@@ -62,6 +62,7 @@ const localLogin = async (req, res, next) => {
       .cookie("PEEKLE_RT", refreshToken, refreshTokenCookieOptions)
       .success({
         user: ret,
+        access_token: accessToken,
       });
   } catch (err) {
     logError(err);

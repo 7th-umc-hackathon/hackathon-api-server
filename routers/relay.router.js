@@ -2,6 +2,12 @@ import express from "express";
 import * as aiController from "../controllers/relays/gpt.relays.controller.js";
 //import validate from "../middleware/validate";
 import {
+  newAssign,
+  assignConfirm,
+  nextCountry,
+  countryConfirm,
+} from "../controllers/relays/assign.relays.controller.js";
+import {
   getRelayHistory,
   handleGetUserRelayHistory,
   handleUserCurrentRelayGet,
@@ -12,6 +18,18 @@ import { handleCreateNewRelay } from "../controllers/relays/create.relays.contro
 import * as multerMiddleware from "../middleware/upload/multer.image.js";
 
 const router = express.Router();
+
+// 릴레이 배정
+router.get("/", authenticateAccessToken, newAssign);
+
+// 릴레이 배정 확정
+router.post("/current", authenticateAccessToken, assignConfirm);
+
+// 가능한 다음 국가 띄우기
+router.get("/:relay_id/next/countries", nextCountry);
+
+// 다음 국가 선택
+router.post("/:relay_id/next", authenticateAccessToken, countryConfirm);
 
 // 현재 진행 중인 릴레이를 조회 후 반환
 router.get("/current", authenticateAccessToken, handleUserCurrentRelayGet);

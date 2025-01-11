@@ -19,7 +19,3 @@ export const handleUserCurrentRelayGet = async (req,res, next) => {
         next(err);
     }
 };
-
-module.exports = {
-    handleUserCurrentRelayGet
-};

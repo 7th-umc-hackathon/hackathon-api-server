@@ -2,12 +2,12 @@ const jwt = require("jsonwebtoken");
 const logger = require("../logger"); // 로거 설정 경로에 맞게 수정
 const { UnauthorizedError, NotAllowedError } = require("../errors");
 const { decrypt62 } = require("../utils/encrypt.util");
-const { JWT_SECRET } = require("../config.json").SERVER;
+const { JWT_SECRET } = require("../config.js").SERVER;
 
 /**
  * Bearer 토큰을 추출하고 검증하는 미들웨어
  */
-const authenticateAccessToken = (req, res, next) => {
+export const authenticateAccessToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (authHeader && authHeader.startsWith("Bearer ")) {
@@ -45,7 +45,7 @@ const authenticateAccessToken = (req, res, next) => {
 
 // 일단은 만드는 김에 같이 만들긴 했는데
 // handleReissueToken에서 이미 따로 작성을 한 상태라 사용될지는 모르곘음
-const authenticateRefreshToken = (req, res, next) => {
+export const authenticateRefreshToken = (req, res, next) => {
   const refreshToken = req.cookies.SPECTOGETHER_RT;
 
   if (!refreshToken) {
@@ -74,7 +74,3 @@ const authenticateRefreshToken = (req, res, next) => {
   });
 };
 
-module.exports = {
-  authenticateAccessToken,
-  authenticateRefreshToken,
-};

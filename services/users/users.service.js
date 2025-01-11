@@ -54,8 +54,21 @@ export const userRanking = async (userId) => {
   return user ? user.get("rank") : null;
 };
 
-// 국가 랭킹을 산출해야 함.
-// user들을 country_id로 묶어서 point 합산 후 내림차순 정렬
+export const userRankList = async (userId) => {
+  // point 기준으로 내림차순 정렬해서 해당 userId가 몇번째인지 찾기
+  const users = await User.findAll({
+    attributes: [
+      "user_id",
+      [sequelize.literal("RANK() OVER (ORDER BY point DESC)"), "rank"],
+    ],
+    order: [["point", "DESC"]],
+  });
+
+  return users;
+};
+
+// // 국가 랭킹을 산출해야 함.
+// // user들을 country_id로 묶어서 point 합산 후 내림차순 정렬
 
 export const countryRanking = async () => {
   const countries = await Country.findAll({
@@ -73,7 +86,7 @@ export const countryRanking = async () => {
     ],
   });
 
-  return countries.map((country) => {
+  const countryOrdered = countries.map((country) => {
     const users = country.get("users");
     const totalPoint = users.reduce((acc, user) => acc + user.get("point"), 0);
     const countryData = country.get();
@@ -83,4 +96,51 @@ export const countryRanking = async () => {
       totalPoint,
     };
   });
+
+  const sortCountry = countryOrdered
+    .sort((a, b) => b.totalPoint - a.totalPoint)
+    .map((country, index) => ({
+      ...country,
+      rank: index + 1,
+    }));
+
+  return sortCountry;
+};
+
+export const myCountryRanking = async (userId) => {
+  const countries = await Country.findAll({
+    attributes: [
+      "country_id",
+      "common_name",
+      [sequelize.fn("SUM", sequelize.col("users.point")), "totalPoint"],
+    ],
+    include: [
+      {
+        model: User,
+        as: "users",
+        attributes: [],
+      },
+    ],
+    group: ["Country.country_id"],
+    order: [[sequelize.literal("totalPoint"), "DESC"]],
+    raw: true,
+  });
+
+  const rankedCountries = countries.map((country, index) => ({
+    ...country,
+    rank: index + 1,
+    totalPoint: parseInt(country.totalPoint) || 0,
+  }));
+
+  const user = await User.findOne({
+    attributes: ["country_id"],
+    where: { user_id: userId },
+    raw: true,
+  });
+
+  const userCountry = rankedCountries.find(
+    (country) => country.country_id === user.country_id
+  );
+
+  return userCountry ? userCountry.rank : null;
 };

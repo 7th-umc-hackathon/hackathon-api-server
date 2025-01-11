@@ -19,11 +19,15 @@ router.get(
   profileController.userRank
 );
 
+router.get("/rank/user/list", profileController.userRankList);
+
 router.get(
-  "/rank/country",
+  "/rank/user/country",
   authMiddleware.authenticateAccessToken,
-  profileController.countryRank
+  profileController.myCountryRanking
 );
+
+router.get("/rank/country", profileController.countryRankingList);
 
 // 리워드 수령
 router.patch("/:relay_id/claim-reward", authMiddleware.authenticateAccessToken);

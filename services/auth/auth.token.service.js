@@ -19,7 +19,7 @@ export const createAccessToken = ({ user_id, name, nickname }) => {
     nickname,
   };
   const options = {
-    expiresIn: "1h",
+    expiresIn: "10h",
   };
   return jwt.sign(payload, JWT_SECRET, options);
 };

@@ -69,19 +69,19 @@ export const confirmAssignment = async (userId) => {
 };
 
 // 다음 타자로 가능한 국가 띄우기
-export const getNextCountries = async (userId, relayId) => {
-  const user = await User.findOne({ where: { user_id: userId } });
+export const getNextCountries = async (relayId) => {
+  // const user = await User.findOne({ where: { user_id: userId } });
 
-  if (!user) {
-    throw new NotExistsError("사용자를 찾을 수 없습니다.");
-  }
+  // if (!user) {
+  //   throw new NotExistsError("사용자를 찾을 수 없습니다.");
+  // }
   /*
     relay의 unique_country_count를 가져오기
     relay_user를 id DESC 순으로 정렬, limit uqniue_country_count
     가져온 거의 user_id의 country_id를 제외한 모든 것
     */
 
-  const userCountryId = user.country_id; // 현재 유저의 국가
+  // const userCountryId = user.country_id; // 현재 유저의 국가
 
   const uniqueCountryCount = await Relay.findByPk(relayId).unique_country_count;
 
@@ -106,7 +106,7 @@ export const getNextCountries = async (userId, relayId) => {
   const nextCountries = await Country.findAll({
     where: {
       country_id: {
-        [Sequelize.Op.ne]: userCountryId, // 현재 유저의 country_id와 다름
+        // [Sequelize.Op.ne]: userCountryId, // 현재 유저의 country_id와 다름
         [Sequelize.Op.notIn]: excludedCountryIds, // 이전에 참여한 국가 제외
       },
     },

@@ -22,6 +22,10 @@ class Country extends Model {
           type: DataTypes.STRING(3),
           allowNull: false,
         },
+        timezones: {
+          type: DataTypes.STRING(256),
+          allowNull: false,
+        },
         national_flag_url: {
           type: DataTypes.STRING(1024),
           allowNull: false,

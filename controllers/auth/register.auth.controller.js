@@ -17,6 +17,7 @@ export const userRegister = async (req, res, next) => {
   */
   try {
     // (나중에) 이미 존재하는 사용자인지 검토
+    await registerService.checkIdUnique(req.body.login_id);
 
     // 사용자 등록
     const user = await registerService.userRegister(req.body);

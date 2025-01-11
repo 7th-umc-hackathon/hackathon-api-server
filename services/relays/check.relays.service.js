@@ -19,3 +19,18 @@ export const checkCurrentRelayExists = async (userId) => {
 
     return currentRelay; // 릴레이가 있으면 반환
 };
+
+// 사용자가 진행한 릴레이 이력 조회
+export const listUserRelayHistorys = async (userId) => {
+    const historyList = await RelayUser.findAll({
+        where: {
+            user_id: userId
+        }
+    });
+    console.log(historyList);
+    if(!historyList || historyList.length==0) {
+        throw new NotExistsError("사용자가 진행한 릴레이 이력이 없습니다.",{userId});
+    }
+
+    return historyList;
+}

@@ -1,10 +1,12 @@
 import {
   Country,
+  Relay,
   RelayUser,
   sequelize,
   Sequelize,
   User,
 } from "../../models/index.js";
+import { InvalidInputError } from "../../utils/errors/errors.js";
 
 export const userProfile = async (userId) => {
   // User 모델에서 특정 userId를 가진 사용자 레코드를 찾습니다.
@@ -144,4 +146,46 @@ export const myCountryRanking = async (userId) => {
   );
 
   return userCountry ? userCountry.rank : null;
+};
+
+export const UpdateUserReward = async (userId, relayUserId) => {
+  // relayUser의 리워드 지급 상태 조회
+  const rewardStatus = await RelayUser.findOne({
+    where: {
+      relay_user_id: relayUserId,
+    },
+  });
+
+  if (rewardStatus.status === "success") {
+    // 해당 릴레이유저의 리워드 계산
+    const rewardData = await RelayUser.findOne({
+      where: { relay_user_id: relayUserId },
+      attributes: ["reward_relay_count"],
+    });
+
+    const reward = rewardData.reward_relay_count;
+
+    // relayUser의 status 업데이트
+    await RelayUser.update(
+      { status: "rewarded" },
+      { where: { relay_user_id: relayUserId } }
+    );
+
+    console.log("Reward:", reward);
+
+    // 사용자 point 업데이트
+    await User.update(
+      { point: Sequelize.literal(`point + ${reward}`) }, // 여기서 문자열 보간법 사용
+      { where: { user_id: userId } }
+    );
+
+    // 업데이트된 사용자 정보 조회
+    const updatedUser = await User.findOne({
+      where: { user_id: userId },
+    });
+
+    return updatedUser;
+  } else {
+    throw new InvalidInputError("지급할 수 없는 리워드 입니다.", { relayUserId });
+  }
 };

@@ -38,6 +38,7 @@ class User extends Model {
         point: {
           type: DataTypes.BIGINT,
           allowNull: false,
+          defaultValue: 0,
         },
         created_at: {
           type: DataTypes.DATE(6),

@@ -119,6 +119,7 @@ export const comparePassword = async (password, hashedPassword) => {
     if (!checkresult) {
       throw new NotAllowedError("비밀번호가 일치하지 않습니다.");
     }
+    return checkresult;
   } catch (err) {
     logger.error(`비밀번호 비교 오류: ${err.message}`, { stack: err.stack });
     throw err;

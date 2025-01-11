@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken");
-const logger = require("../logger"); // 로거 설정 경로에 맞게 수정
-const { UnauthorizedError, NotAllowedError } = require("../errors");
-const { decrypt62 } = require("../utils/encrypt.util");
-const { JWT_SECRET } = require("../config.js").SERVER;
+import jwt from "jsonwebtoken";
+import logger from "../utils/logger/logger.js";
+import { NotAllowedError, UnauthorizedError } from "../utils/errors/errors.js";
 
+import config from "../config.js";
+const { JWT_SECRET } = config.SERVER;
 /**
  * Bearer 토큰을 추출하고 검증하는 미들웨어
  */
@@ -42,6 +42,7 @@ export const authenticateAccessToken = (req, res, next) => {
     next(new UnauthorizedError("Authorization이 제공되지 않았습니다."));
   }
 };
+<<<<<<< HEAD
 
 // 일단은 만드는 김에 같이 만들긴 했는데
 // handleReissueToken에서 이미 따로 작성을 한 상태라 사용될지는 모르곘음
@@ -74,3 +75,5 @@ export const authenticateRefreshToken = (req, res, next) => {
   });
 };
 
+=======
+>>>>>>> main

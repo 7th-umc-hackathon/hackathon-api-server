@@ -28,6 +28,7 @@ import { specs } from "./utils/swagger/swagger.js";
 // Routers는 이 주석 아래에 import 해주시면 됩니다.
 // ex) const exampleRouter = require("./routers/example.router");
 import authRouter from "./routers/auth.router.js";
+import assignRouter from "./routers/relays.router.js";
 
 // Socket.io Router는 이 주석 아래에 import 해주시면 됩니다.
 // ex) const exampleSocketRouter = require("./routes/example.socket.router");
@@ -52,6 +53,7 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
 // 이 주석 하단에 Router들을 use 해주시면 됩니다.
 // ex) app.use("/example", exampleRouter);
 app.use("/auth", authRouter);
+app.use("/relays", assignRouter);
 
 // 에러 핸들러는 최하단에 위치해야 하는 미들웨어입니다. 절대 순서를 변경하지 마세요.
 app.use(errorHandler);
